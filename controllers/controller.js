@@ -1,6 +1,8 @@
+const multer = require('multer')
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
 
+const upload = multer({ inMemory: true })
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
 // Converts local file information to a GoogleGenerativeAI.Part object.
@@ -26,8 +28,8 @@ exports.run = async (req, res) => {
     const result = await model.generateContent([prompt, ...imageParts]);
     const response = await result.response;
     const text = response.text();
-    
+
     console.log(text);
 
-    res.json({message: text})
+    res.json({ message: text })
 }
